@@ -22,5 +22,15 @@ namespace API.Project.Controllers
             var message = _message.GetMessage();
             return Ok(message);
         }
+
+        [HttpGet("divide")]
+        public IActionResult Divide()
+        {
+            var den = 0;
+            var num = 1;
+
+            var abc = num / den;
+            return Ok(abc);
+        }
     }
 }

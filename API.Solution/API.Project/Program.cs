@@ -42,6 +42,7 @@ namespace API.Project
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseMiddleware<ConventionMiddleware>();
             app.UseMiddleware<AnotherMiddleware>();
 
