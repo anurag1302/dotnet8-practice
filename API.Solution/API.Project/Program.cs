@@ -1,4 +1,6 @@
 
+using API.Project.Stuffs;
+
 namespace API.Project
 {
     public class Program
@@ -13,6 +15,11 @@ namespace API.Project
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddKeyedSingleton<IMessage, SingletonMessage>("singleton");
+            builder.Services.AddKeyedSingleton<IMessage, ScopedMessage>("scoped");
+            builder.Services.AddKeyedSingleton<IMessage, TransientMessage>("transient");
+
 
             var app = builder.Build();
 
