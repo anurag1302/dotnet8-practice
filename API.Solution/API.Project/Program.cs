@@ -30,6 +30,8 @@ namespace API.Project
                 .MinimumLevel.Information()
                 .WriteTo.Seq("http://localhost:5341/")
                 .CreateLogger();
+
+            builder.Services.AddOptions<CountryData>().BindConfiguration("CountryData");
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

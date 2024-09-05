@@ -1,5 +1,6 @@
 ﻿using API.Project.Stuffs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace API.Project.Controllers
@@ -9,9 +10,16 @@ namespace API.Project.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IMessage _message;
-        public ValuesController([FromKeyedServices("scoped")]IMessage message)
+        private readonly IConfiguration _configuration;
+        private readonly CountryData _options;
+        public ValuesController([FromKeyedServices("scoped")]IMessage message, 
+            IConfiguration configuration,
+            IOptions<CountryData> options)
         {
             _message = message;
+            _configuration = configuration;
+            _options = options.Value;
+
         }
 
         [HttpGet("message")]
@@ -31,6 +39,38 @@ namespace API.Project.Controllers
 
             var abc = num / den;
             return Ok(abc);
+        }
+
+        [HttpGet("config")]
+        public IActionResult ReadConfig()
+        {
+            Log.Information("Read from IConfiguration pattern");
+
+            var name = _configuration.GetValue<string>("CountryData:Name");
+            var capital = _configuration.GetValue<string>("CountryData:Capital");
+            var area = _configuration.GetValue<string>("CountryData:Area");
+
+            return Ok(new
+            {
+                Name = name, Capital = capital, Area = area
+            });
+        }
+
+        [HttpGet("config-options")]
+        public IActionResult ReadConfigViaIOptiions()
+        {
+            Log.Information("Read from IOptions pattern");
+
+            var name = _options.Name;
+            var capital = _options.Capital;
+            var area = _options.Area;
+
+            return Ok(new
+            {
+                Name = name,
+                Capital = capital,
+                Area = area
+            });
         }
     }
 }
