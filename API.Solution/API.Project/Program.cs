@@ -1,4 +1,5 @@
 
+using API.Project.Middlewares;
 using API.Project.Stuffs;
 using Serilog;
 
@@ -21,6 +22,8 @@ namespace API.Project
             builder.Services.AddKeyedSingleton<IMessage, ScopedMessage>("scoped");
             builder.Services.AddKeyedSingleton<IMessage, TransientMessage>("transient");
 
+            builder.Services.AddTransient<AnotherMiddleware>();
+
             Log.Logger = new LoggerConfiguration()
                 //.WriteTo.Console()
                 //.WriteTo.File("log.txt", rollingInterval:RollingInterval.Day)
@@ -39,6 +42,8 @@ namespace API.Project
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            app.UseMiddleware<ConventionMiddleware>();
+            app.UseMiddleware<AnotherMiddleware>();
 
 
             app.MapControllers();
