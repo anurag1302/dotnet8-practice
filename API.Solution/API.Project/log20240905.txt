@@ -1,0 +1,2 @@
+2024-09-05 15:41:34.024 +05:30 [INF] /message endpoint hit
+2024-09-05 15:42:14.238 +05:30 [INF] /message endpoint hit

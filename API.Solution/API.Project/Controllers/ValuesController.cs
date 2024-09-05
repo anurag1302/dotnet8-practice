@@ -1,5 +1,6 @@
 ﻿using API.Project.Stuffs;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace API.Project.Controllers
 {
@@ -16,6 +17,8 @@ namespace API.Project.Controllers
         [HttpGet("message")]
         public IActionResult GetValues()
         {
+            Log.Information("/message endpoint hit");
+
             var message = _message.GetMessage();
             return Ok(message);
         }
