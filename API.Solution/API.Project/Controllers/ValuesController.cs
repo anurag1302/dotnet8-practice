@@ -2,7 +2,9 @@
 using API.Project.Stuffs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Serilog;
+using System.Xml.Serialization;
 
 namespace API.Project.Controllers
 {
@@ -77,9 +79,15 @@ namespace API.Project.Controllers
         [HttpGet("athletes")]
         public IActionResult GetAthletes()
         {
+            var type = "";
             var headers = HttpContext.Request.Headers;
             var contentType = headers.Where(x => x.Key.ToLower() == "content-type".ToLower()).FirstOrDefault();
 
+            if(contentType.Equals(default(KeyValuePair<string, StringValues>)))
+            {
+                type = contentType.Value;
+            }
+            
             var data = AtheleteRepository.GetAthletes();
 
             return Ok(data);
