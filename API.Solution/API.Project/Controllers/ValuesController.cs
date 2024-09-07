@@ -1,4 +1,5 @@
-﻿using API.Project.Stuffs;
+﻿using API.Project.Data;
+using API.Project.Stuffs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Serilog;
@@ -71,6 +72,17 @@ namespace API.Project.Controllers
                 Capital = capital,
                 Area = area
             });
+        }
+
+        [HttpGet("athletes")]
+        public IActionResult GetAthletes()
+        {
+            var headers = HttpContext.Request.Headers;
+            var contentType = headers.Where(x => x.Key.ToLower() == "content-type".ToLower()).FirstOrDefault();
+
+            var data = AtheleteRepository.GetAthletes();
+
+            return Ok(data);
         }
     }
 }
