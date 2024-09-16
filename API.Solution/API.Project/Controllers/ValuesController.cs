@@ -83,14 +83,22 @@ namespace API.Project.Controllers
             var headers = HttpContext.Request.Headers;
             var contentType = headers.Where(x => x.Key.ToLower() == "content-type".ToLower()).FirstOrDefault();
 
-            if(contentType.Equals(default(KeyValuePair<string, StringValues>)))
+            if(!contentType.Equals(default(KeyValuePair<string, StringValues>)))
             {
                 type = contentType.Value;
             }
             
             var data = AtheleteRepository.GetAthletes();
+            if(type.Contains("xml"))
+            {
+                XmlSerializer xml = new XmlSerializer(typeof(List<Athlete>));
+                var sw = new StringWriter();
+                xml.Serialize(sw, data);
 
+                return Ok(sw.ToString());
+            }
             return Ok(data);
+            
         }
     }
 }
