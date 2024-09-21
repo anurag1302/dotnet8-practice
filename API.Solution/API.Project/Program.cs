@@ -32,6 +32,16 @@ namespace API.Project
                 .CreateLogger();
 
             builder.Services.AddOptions<CountryData>().BindConfiguration("CountryData");
+
+            builder.Services.AddCors(c =>
+            {
+                c.AddPolicy("CorsPolicy", opt =>
+                {
+                    opt.AllowAnyMethod().
+                    AllowAnyOrigin().
+                    AllowAnyHeader();
+                });
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -42,6 +52,7 @@ namespace API.Project
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
             app.UseMiddleware<ExceptionHandlingMiddleware>();

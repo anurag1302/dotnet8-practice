@@ -100,5 +100,12 @@ namespace API.Project.Controllers
             return Ok(data);
             
         }
+
+        [HttpPost("logout")]
+        public IActionResult LogOut([FromBody] User user)
+        {
+            var userId = user.UserId;
+            return Ok(userId);
+        }
     }
 }
